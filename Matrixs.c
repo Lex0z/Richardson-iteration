@@ -9,6 +9,21 @@
 
 #define DEBUG 0
 
+Matrix* copyMatrix(const Matrix* source) {
+    if (source == NULL || source->n <= 0 || source->m <= 0 || source->d == NULL) {
+        return NULL;
+    }
+    Matrix* copy = newMatrix(source->n, source->m);
+    if (copy == NULL || copy->d == NULL) {
+        if (copy != NULL) freeMatrix(copy);
+        return NULL;
+    }
+    for (int i = 0; i < source->n * source->m; ++i) {
+        copy->d[i] = source->d[i];
+    }
+    return copy;
+}
+
 Matrix* newMatrix(int n, int m) {
     if (n <= 0 || m <= 0) return NULL;
     Matrix *matrix = (Matrix*)malloc(sizeof(Matrix));
@@ -89,11 +104,11 @@ Matrix* multiplyMatrix(Matrix* A, Matrix* B) {
     return C;
 }
 
-Matrix* createRandomMatrix(int n, int m) {
+Matrix* createRandomMatrix(int n, int m, double a, double b) {
     double *d = (double *)malloc(sizeof(double) * n * m);
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < m; j++) {
-            d[i*m + j] = (double) rand() / RAND_MAX;
+            d[i*m + j] = a + (b-a) * (double) rand() / (double)RAND_MAX;
         }
     }
     Matrix* T = createMatrix(n, m, d);
@@ -140,4 +155,18 @@ Matrix* addMatrix(Matrix* A, Matrix* B, char op) {
         }
     }
     return C;
+}
+
+double* maxInMatrix(Matrix* M) {
+    if (M == NULL || M->d == NULL) return NULL;
+    int n = M->n;
+    double* max = M->d;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            if (*max < M->d[i*n + j]) {
+                max = &(M->d[i*n + j]);
+            }
+        }
+    }
+    return max;
 }

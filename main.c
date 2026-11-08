@@ -1,4 +1,8 @@
 #include <stdio.h>
+#include <stdlib.h>
+
+#include "Matrixs.h"
+#include "Richardson.h"
 
 #ifndef PROJECT_ROOT_DIR
 #define PROJECT_ROOT_DIR "."
@@ -13,11 +17,22 @@ static int openOutput(const char* relativePath, char* path, size_t pathSize, FIL
     }
     return 1;
 }
+
 int main(void) {
     printf("Hello, World!\n");
     char path[1024];
     FILE* output = NULL;
 
-    
+    int m = 3;
+    int N = 10;
+
+    srand(1);
+    Matrix* x_fix = createRandomMatrix(N,1, -5.,5.);
+    Matrix* Q = createQMatrix(N);
+    Matrix* D = builtDMatrix(N, 1);
+
+
+
+
     return 0;
 }
