@@ -1,0 +1,74 @@
+out/
+
+### Временные файлы сборки и компиляции (C / C++)
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dylib
+*.exe
+*.out
+*.app
+
+### Директории сборки CLion (CMake / Ninja)
+cmake-build-*/
+.cmake/
+
+### Настройки среды разработки JetBrains (CLion)
+.idea/
+*.iws
+*.iml
+
+### Логи и кэш
+*.log
+.clion.source.upload.marker
+
+### Локальные конфигурации (если вы используете переменные окружения)
+.env
+.env.local
+
+### Специфичные файлы Visual Studio (Кэш и настройки)
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+### Результаты компиляции и сборки (Build outputs)
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Re]leasePublic/
+x64/
+x86/
+build/
+bld/
+bin/
+obj/
+
+### Кэш компилятора, базы данных и IntelliSense (C++)
+*.sdf
+*.opensdf
+*.ipch
+*.pch
+*.pdb
+*.ilk
+*.aps
+*.ncb
+
+### Логи и отчеты тестов
+*.log
+*.tlog
+TestResult*
+*.vsix
+
+### Файлы пакетов (NuGet)
+packages/
+*.nuget.props
+*.nuget.targets
+
+### Временные файлы операционной системы
+Thumbs.db
+Desktop.ini
+.DS_Store
