@@ -18,10 +18,10 @@ void RichardsonParams(double delta, double Delta, double alphas[RICHARDSON_M])
 {
     if (alphas == NULL || !(delta > 0.0) || !(Delta >= delta)) return;
 
-    const double c = sqrt(3.0) / 2.0;
-    const double cosines[RICHARDSON_M] = {c, 0.0, -c};
+    const double t = sqrt(3.0) / 2.0;
+    const double Chebyshev[RICHARDSON_M] = {t, 0.0, -t};
     for (int i = 0; i < RICHARDSON_M; ++i) {
-        double denominator = delta + Delta + (Delta - delta) * cosines[i];
+        double denominator = delta + Delta + (Delta - delta) * Chebyshev[i];
         alphas[i] = 2.0 / denominator;
     }
 }
