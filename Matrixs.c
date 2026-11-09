@@ -76,6 +76,7 @@ double normVector2(const Matrix* v) {
 }
 
 double normMatrix(Matrix* T) {
+    if (T == NULL || T->d == NULL) return NAN;
     double mx = 0.0;
     for (int j = 0; j < T->m; j++) {
         double sum = 0.0;
@@ -88,10 +89,12 @@ double normMatrix(Matrix* T) {
 }
 
 Matrix* multiplyMatrix(Matrix* A, Matrix* B) {
+    if (A == NULL || B == NULL || A->d == NULL || B->d == NULL || A->m != B->n) return NULL;
     int n = A->n;
     int p = A->m;
     int m = B->m;
     Matrix *C = newMatrix(n, m);
+    if (C == NULL) return NULL;
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < m; j++) {
             double sum = 0.0;
@@ -105,7 +108,9 @@ Matrix* multiplyMatrix(Matrix* A, Matrix* B) {
 }
 
 Matrix* createRandomMatrix(int n, int m, double a, double b) {
-    double *d = (double *)malloc(sizeof(double) * n * m);
+    if (n <= 0 || m <= 0 || !isfinite(a) || !isfinite(b) || b < a) return NULL;
+    double *d = (double *)malloc(sizeof(double) * (size_t)n * (size_t)m);
+    if (d == NULL) return NULL;
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < m; j++) {
             d[i*m + j] = a + (b-a) * (double) rand() / (double)RAND_MAX;
@@ -117,7 +122,9 @@ Matrix* createRandomMatrix(int n, int m, double a, double b) {
 }
 
 Matrix* transposeMatrix(Matrix* M) {
-    double *d = (double *)malloc(sizeof(double) * M->n * M->m);
+    if (M == NULL || M->d == NULL) return NULL;
+    double *d = (double *)malloc(sizeof(double) * (size_t)M->n * (size_t)M->m);
+    if (d == NULL) return NULL;
     for (int i = 0; i < M->n; i++) {
         for (int j = 0; j < M->m; j++) {
             d[j*M->n + i] = M->d[i*M->m + j];
@@ -129,7 +136,7 @@ Matrix* transposeMatrix(Matrix* M) {
 }
 
 Matrix* addMatrix(Matrix* A, Matrix* B, char op) {
-    if (A->m != B->m || A->n != B->n) {
+    if (A == NULL || B == NULL || A->d == NULL || B->d == NULL || A->m != B->m || A->n != B->n) {
         printf("Matrix dimensions do not match");
         return NULL;
     }
@@ -148,6 +155,7 @@ Matrix* addMatrix(Matrix* A, Matrix* B, char op) {
     }
 
     Matrix* C = newMatrix(A->n, A->m);
+    if (C == NULL) return NULL;
 
     for (int i = 0; i < A->n; i++) {
         for (int j = 0; j < A->m; j++) {
@@ -158,15 +166,10 @@ Matrix* addMatrix(Matrix* A, Matrix* B, char op) {
 }
 
 double* maxInMatrix(Matrix* M) {
-    if (M == NULL || M->d == NULL) return NULL;
-    int n = M->n;
-    double* max = M->d;
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            if (*max < M->d[i*n + j]) {
-                max = &(M->d[i*n + j]);
-            }
-        }
+    if (M == NULL || M->d == NULL || M->n <= 0 || M->m <= 0) return NULL;
+    double* max = &M->d[0];
+    for (int i = 0; i < M->n * M->m; ++i) {
+        if (*max < M->d[i]) max = &M->d[i];
     }
     return max;
 }
