@@ -88,6 +88,14 @@ Matrix* RichardsonMethod(const Matrix* A, const Matrix* b, const Matrix* x_fix,
     return x;
 }
 
+double* richardsonParams(double delta, double Delta) {
+    double params[3] = { sqrt(3)/2, 0.0, -sqrt(3)/2 };
+    for (int i = 0; i < 3; i++) {
+        params[i] = 1/(Delta + delta + (Delta - delta)*params[i]);
+    }
+    return params;
+}
+
 Matrix* createQMatrix(int n) {
     if (n <= 0) return NULL;
     Matrix* w = createRandomMatrix(n, 1, 0 , 1);
